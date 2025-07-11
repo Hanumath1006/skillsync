@@ -10,6 +10,7 @@ import (
 
 func main() {
     http.HandleFunc("/healthz", handlers.HealthCheck)
+    http.HandleFunc("/register", handlers.Register)
 
     fmt.Println("Server running on port 8080...")
     log.Fatal(http.ListenAndServe(":8080", nil))
