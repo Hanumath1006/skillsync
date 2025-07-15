@@ -7,6 +7,7 @@ import (
 
 	"github.com/Hanumath1006/skillsync/models"
 	"github.com/Hanumath1006/skillsync/utils"
+	"github.com/Hanumath1006/skillsync/middleware"
 )
 
 var users []models.User
@@ -103,4 +104,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{
 		"token": token,
 	})
+}
+
+func Me(w http.ResponseWriter, r *http.Request) {
+    user := middleware.GetUserFromContext(r)
+    if user == nil {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
+
+    json.NewEncoder(w).Encode(map[string]any{
+        "user_id": user.UserID,
+        "email":   user.Email,
+    })
 }
