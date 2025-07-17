@@ -118,3 +118,24 @@ func Me(w http.ResponseWriter, r *http.Request) {
         "email":   user.Email,
     })
 }
+
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+    user := middleware.GetUserFromContext(r)
+    if user == nil {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
+
+    var publicUsers []map[string]interface{}
+    for _, u := range users {
+        publicUsers = append(publicUsers, map[string]interface{}{
+            "id":     u.ID,
+            "name":   u.Name,
+            "email":  u.Email,
+            "skills": u.Skills,
+        })
+    }
+
+    json.NewEncoder(w).Encode(publicUsers)
+}
+

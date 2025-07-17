@@ -5,7 +5,7 @@ import (
     "net/http"
     "github.com/Hanumath1006/skillsync/models"
     "github.com/Hanumath1006/skillsync/middleware"
-    "strconv"
+
 )
 
 var (
