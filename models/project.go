@@ -7,3 +7,5 @@ type Project struct {
 	RequiredSkills []string `json:"required_skills"`
 	OwnerID       int      `json:"owner_id"` // Linked to user
 }
+
+var Projects []Project

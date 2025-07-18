@@ -7,3 +7,5 @@ type User struct {
     Password string   `json:"-"`
     Skills   []string `json:"skills"`
 }
+
+var Users []User
