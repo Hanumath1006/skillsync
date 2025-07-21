@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"fmt"
 
 	"github.com/Hanumath1006/skillsync/middleware"
 	"github.com/Hanumath1006/skillsync/models"
@@ -38,12 +39,21 @@ func MatchUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("✅ Project found:", project.Title)
+    fmt.Println("🔍 Matching against skills:", project.RequiredSkills)
+
 	var matchedUsers []models.User
 	for _, u := range models.Users {
+		fmt.Println("👤 Checking user:", u.Email, "with skills:", u.Skills)
 		if hasMatchingSkills(u.Skills, project.RequiredSkills) {
+			fmt.Println("🎯 Matched user:", u.Email)
 			matchedUsers = append(matchedUsers, u)
 		}
 	}
+
+	if matchedUsers == nil {
+    	matchedUsers = []models.User{} // avoid null in JSON
+    }
 
 	json.NewEncoder(w).Encode(matchedUsers)
 }
