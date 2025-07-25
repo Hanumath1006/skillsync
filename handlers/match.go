@@ -61,11 +61,14 @@ func MatchUsers(w http.ResponseWriter, r *http.Request) {
 func hasMatchingSkills(userSkills, requiredSkills []string) bool {
 	userSkillSet := make(map[string]bool)
 	for _, s := range userSkills {
-		userSkillSet[strings.ToLower(s)] = true
+		clean := strings.ToLower(strings.TrimSpace(s))
+		userSkillSet[clean] = true
 	}
 
 	for _, rs := range requiredSkills {
-		if userSkillSet[strings.ToLower(rs)] {
+		cleaned := strings.ToLower(strings.TrimSpace(rs))
+		if userSkillSet[cleaned] {
+			fmt.Println("✅ Skill matched:", cleaned)
 			return true
 		}
 	}
