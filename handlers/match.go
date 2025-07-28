@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
-	"fmt"
 
 	"github.com/Hanumath1006/skillsync/middleware"
 	"github.com/Hanumath1006/skillsync/models"
@@ -40,7 +40,7 @@ func MatchUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("✅ Project found:", project.Title)
-    fmt.Println("🔍 Matching against skills:", project.RequiredSkills)
+	fmt.Println("🔍 Matching against skills:", project.RequiredSkills)
 
 	var matchedUsers []models.User
 	for _, u := range models.Users {
@@ -52,8 +52,8 @@ func MatchUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if matchedUsers == nil {
-    	matchedUsers = []models.User{} // avoid null in JSON
-    }
+		matchedUsers = []models.User{} // avoid null in JSON
+	}
 
 	json.NewEncoder(w).Encode(matchedUsers)
 }
@@ -62,11 +62,13 @@ func hasMatchingSkills(userSkills, requiredSkills []string) bool {
 	userSkillSet := make(map[string]bool)
 	for _, s := range userSkills {
 		clean := strings.ToLower(strings.TrimSpace(s))
+		fmt.Println("User has skill:", clean)
 		userSkillSet[clean] = true
 	}
 
 	for _, rs := range requiredSkills {
 		cleaned := strings.ToLower(strings.TrimSpace(rs))
+		fmt.Println("Checking against required skill:", cleaned)
 		if userSkillSet[cleaned] {
 			fmt.Println("✅ Skill matched:", cleaned)
 			return true
