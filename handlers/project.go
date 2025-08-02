@@ -37,6 +37,8 @@ func CreateProject(w http.ResponseWriter, r *http.Request) {
 		OwnerID:        user.UserID,
 	}
 	projectIDCounter++
+
+	// ✅ Store the new project in models.Projects
 	models.Projects = append(models.Projects, newProject)
 
 	json.NewEncoder(w).Encode(newProject)
@@ -45,4 +47,9 @@ func CreateProject(w http.ResponseWriter, r *http.Request) {
 // GET /projects
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(models.Projects)
+}
+
+// ✅ Add this function so match.go can access the shared project list
+func GetProjectsList() []models.Project {
+	return models.Projects
 }

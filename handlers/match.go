@@ -39,20 +39,16 @@ func MatchUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("✅ Project found:", project.Title)
-	fmt.Println("🔍 Matching against skills:", project.RequiredSkills)
+	fmt.Println("📌 Project found:", project.Title)
+	fmt.Println("🎯 Matching against skills:", project.RequiredSkills)
 
 	var matchedUsers []models.User
 	for _, u := range models.Users {
-		fmt.Println("👤 Checking user:", u.Email, "with skills:", u.Skills)
+		fmt.Println("👤 Matching user:", u.Name, "with skills:", u.Skills)
 		if hasMatchingSkills(u.Skills, project.RequiredSkills) {
-			fmt.Println("🎯 Matched user:", u.Email)
+			fmt.Println("✅ Match found: ", u.Name)
 			matchedUsers = append(matchedUsers, u)
 		}
-	}
-
-	if matchedUsers == nil {
-		matchedUsers = []models.User{} // avoid null in JSON
 	}
 
 	json.NewEncoder(w).Encode(matchedUsers)
@@ -62,13 +58,13 @@ func hasMatchingSkills(userSkills, requiredSkills []string) bool {
 	userSkillSet := make(map[string]bool)
 	for _, s := range userSkills {
 		clean := strings.ToLower(strings.TrimSpace(s))
-		fmt.Println("User has skill:", clean)
+		fmt.Println("🔍 User has skill:", clean)
 		userSkillSet[clean] = true
 	}
 
 	for _, rs := range requiredSkills {
 		cleaned := strings.ToLower(strings.TrimSpace(rs))
-		fmt.Println("Checking against required skill:", cleaned)
+		fmt.Println("📎 Checking required skill:", cleaned)
 		if userSkillSet[cleaned] {
 			fmt.Println("✅ Skill matched:", cleaned)
 			return true
