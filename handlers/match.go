@@ -51,7 +51,15 @@ func MatchUsers(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	if len(matchedUsers) == 0 {
+		fmt.Println("⚠️ No users matched.")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("[]"))
+		return
+	}
+
 	json.NewEncoder(w).Encode(matchedUsers)
+
 }
 
 func hasMatchingSkills(userSkills, requiredSkills []string) bool {
