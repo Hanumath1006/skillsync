@@ -1,5 +1,7 @@
 package models
 
+var Applications = make(map[int][]User)
+
 type Project struct {
     ID             int      `json:"id"`
     Title          string   `json:"title"`

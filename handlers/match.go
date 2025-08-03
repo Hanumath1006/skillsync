@@ -78,5 +78,7 @@ func hasMatchingSkills(userSkills, requiredSkills []string) bool {
 			return true
 		}
 	}
+
 	return false
+
 }
