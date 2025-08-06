@@ -16,6 +16,10 @@ func main() {
 	router.HandleFunc("/healthz", handlers.HealthCheck)
 	router.HandleFunc("/register", handlers.Register)
 	router.HandleFunc("/login", handlers.Login)
+	
+	router.Handle("/apply/", middleware.AuthMiddleware(http.HandlerFunc(handlers.ApplyToProject)))
+	router.Handle("/applicants/", middleware.AuthMiddleware(http.HandlerFunc(handlers.ViewApplicants)))
+
 
 	router.Handle("/me", middleware.AuthMiddleware(http.HandlerFunc(handlers.Me)))
 	router.Handle("/users", middleware.AuthMiddleware(http.HandlerFunc(handlers.GetUsers)))

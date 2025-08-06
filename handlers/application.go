@@ -40,7 +40,7 @@ func ApplyToProject(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Save applicant
+	// ✅ Dereference *user so we append a value, not a pointer
 	models.Applications[projectID] = append(models.Applications[projectID], *user)
 
 	fmt.Fprintf(w, "✅ Applied to project %d successfully", projectID)
@@ -78,4 +78,3 @@ func ViewApplicants(w http.ResponseWriter, r *http.Request) {
 	applicants := models.Applications[projectID]
 	json.NewEncoder(w).Encode(applicants)
 }
-
